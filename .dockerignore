@@ -1,0 +1,28 @@
+# Hugo
+/public/
+/resources/_gen/
+.hugo_build.lock
+
+# Git
+.git/
+.gitignore
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Deployment
+.gcp/
+deploy.log
+
+# Docs
+ARCHITECTURE.md
+EVOLUTION-PLAN.md
+README.md
