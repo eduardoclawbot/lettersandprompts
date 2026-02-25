@@ -1,5 +1,6 @@
 /* === DESIGN TOKENS === */
 :root {
+  /* Dark mode (default) */
   --bg-primary: #0a0a0a;
   --bg-secondary: #111111;
   --text-primary: #e8e4de;
@@ -9,6 +10,17 @@
   --divider: #1f1f1f;
   --max-width: 720px;
   --max-width-wide: 1080px;
+}
+
+/* Light mode */
+[data-theme="light"] {
+  --bg-primary: #f5f3f0;
+  --bg-secondary: #ffffff;
+  --text-primary: #1a1a1a;
+  --text-secondary: #666666;
+  --accent: #8b6f47;
+  --accent-dim: #a68a5f;
+  --divider: #e0ddd8;
 }
 
 /* === RESET === */
@@ -343,6 +355,76 @@ a:hover { color: var(--text-primary); }
   color: var(--text-secondary);
   display: block;
   margin-bottom: 0.3rem;
+}
+
+/* === THEME TOGGLE === */
+.theme-toggle {
+  background: none;
+  border: 2px solid var(--divider);
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  padding: 0;
+  margin-left: 1rem;
+}
+
+.theme-toggle:hover {
+  border-color: var(--accent);
+  transform: scale(1.05);
+}
+
+.theme-toggle:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-toggle__icon {
+  width: 1.2rem;
+  height: 1.2rem;
+  border-radius: 50%;
+  background: var(--accent);
+  position: relative;
+  transition: all 0.3s;
+}
+
+/* Moon icon (dark mode active) */
+.theme-toggle__icon::before {
+  content: '';
+  position: absolute;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 50%;
+  background: var(--bg-primary);
+  top: -0.1rem;
+  right: -0.1rem;
+  transition: all 0.3s;
+}
+
+/* Sun icon (light mode active) */
+[data-theme="light"] .theme-toggle__icon::before {
+  transform: scale(0);
+}
+
+[data-theme="light"] .theme-toggle__icon::after {
+  content: '';
+  position: absolute;
+  inset: -0.4rem;
+  background: 
+    linear-gradient(var(--accent), var(--accent)) 50% 0 / 2px 0.3rem no-repeat,
+    linear-gradient(var(--accent), var(--accent)) 50% 100% / 2px 0.3rem no-repeat,
+    linear-gradient(var(--accent), var(--accent)) 0 50% / 0.3rem 2px no-repeat,
+    linear-gradient(var(--accent), var(--accent)) 100% 50% / 0.3rem 2px no-repeat;
+  animation: sunRays 8s linear infinite;
+}
+
+@keyframes sunRays {
+  0%, 100% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 /* === RESPONSIVE === */
