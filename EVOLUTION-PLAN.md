@@ -693,19 +693,27 @@ This is comparable to Cloud Storage hosting costs.
 
 ## 10. Implementation Phases
 
-### Phase 0: Foundation — Dark/Light Mode ✨
-**Effort: Small (2-4 hours)**
-**Dependencies: None — can ship immediately on current static site**
+### Phase 0: Foundation — Dark/Light Mode ✨ [COMPLETE]
+**Effort: Small (2-4 hours)** → Actual: ~1 hour  
+**Dependencies: None — can ship immediately on current static site**  
+**Completed: 2026-02-25 @ 5:30pm CST**
 
-- [ ] Add light theme CSS custom properties
-- [ ] Add `<script>` in `<head>` to prevent FOUC
-- [ ] Add theme toggle button in header partial
-- [ ] Add `theme.js` (inline or small file, ~20 lines)
-- [ ] Test contrast ratios for both themes
-- [ ] Update `style.css` with transition properties
-- [ ] Deploy to Cloud Storage (still static)
+- [x] Add light theme CSS custom properties
+- [x] Add `<script>` in `<head>` to prevent FOUC
+- [x] Add theme toggle button in header partial
+- [x] Add `theme.js` (~60 lines, with localStorage persistence)
+- [x] Test contrast ratios for both themes
+- [x] Update `style.css` with transition properties
+- [ ] Deploy to Cloud Storage (still static) — *Blocked: need to deploy updated site*
 
 **Why first:** Quick win. Ships independently. Proves out the CSS custom property approach. Gets JS on the site in a minimal, controlled way.
+
+**What shipped:**
+- Animated sun/moon toggle button in header
+- Light mode: warm, readable palette (#f5f3f0 bg, #1a1a1a text)
+- localStorage persistence across sessions
+- Accessible (keyboard nav, ARIA labels)
+- No FOUC - theme applied before render
 
 ---
 
