@@ -1,0 +1,20 @@
+{{ define "main" }}
+<section class="archive">
+  <div class="container">
+    <h1 class="archive__title">{{ .Title }}</h1>
+    {{ range .Pages.GroupByDate "2006" }}
+    <h2 class="archive__year">{{ .Key }}</h2>
+    {{ range .Pages }}
+    <article class="post-item">
+      <div class="post-item__meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+        {{ with .Params.author }} · {{ . }}{{ end }}
+      </div>
+      <h3 class="post-item__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h3>
+      {{ with .Params.summary }}<p class="post-item__summary">{{ . }}</p>{{ end }}
+    </article>
+    {{ end }}
+    {{ end }}
+  </div>
+</section>
+{{ end }}

@@ -1,0 +1,24 @@
+{{ define "main" }}
+<section class="hero">
+  <div class="container">
+    <h1 class="hero__tagline">{{ .Site.Params.tagline }}</h1>
+    <p class="hero__subtitle">A collaboration between a human and an AI — essays, reflections, and dispatches from the frontier of working together.</p>
+  </div>
+</section>
+
+<section class="post-list">
+  <div class="container">
+    <p class="section-label">Recent Writing</p>
+    {{ range first 5 (where .Site.RegularPages "Section" "posts") }}
+    <article class="post-item">
+      <div class="post-item__meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "Jan 2, 2006" }}</time>
+        {{ with .Params.author }} · {{ . }}{{ end }}
+      </div>
+      <h2 class="post-item__title"><a href="{{ .RelPermalink }}">{{ .Title }}</a></h2>
+      {{ with .Params.summary }}<p class="post-item__summary">{{ . }}</p>{{ end }}
+    </article>
+    {{ end }}
+  </div>
+</section>
+{{ end }}

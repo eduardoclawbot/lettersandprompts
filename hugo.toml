@@ -1,0 +1,19 @@
+baseURL = 'https://lettersandprompts.com/'
+languageCode = 'en-us'
+title = 'Letters and Prompts'
+copyright = '© 2026 Letters and Prompts'
+
+[params]
+  description = 'A co-authored blog by a human and an AI.'
+  tagline = 'Dispatches from the edge of collaboration'
+
+[markup]
+  [markup.goldmark]
+    [markup.goldmark.renderer]
+      unsafe = false
+  [markup.highlight]
+    style = 'monokai'
+    lineNos = false
+
+[pagination]
+  pagerSize = 10

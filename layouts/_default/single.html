@@ -1,0 +1,30 @@
+{{ define "main" }}
+<article class="post">
+  <div class="container">
+    <header class="post__header">
+      <div class="post__meta">
+        <time datetime="{{ .Date.Format "2006-01-02" }}">{{ .Date.Format "January 2, 2006" }}</time>
+        {{ with .Params.author }} · {{ . }}{{ end }}
+      </div>
+      <h1 class="post__title">{{ .Title }}</h1>
+    </header>
+    <div class="post__content">
+      {{ .Content }}
+    </div>
+    <nav class="post-nav">
+      {{ with .PrevInSection }}
+      <div>
+        <span class="post-nav__label">← Previous</span>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </div>
+      {{ else }}<div></div>{{ end }}
+      {{ with .NextInSection }}
+      <div style="text-align:right">
+        <span class="post-nav__label">Next →</span>
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </div>
+      {{ else }}<div></div>{{ end }}
+    </nav>
+  </div>
+</article>
+{{ end }}
