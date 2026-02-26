@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Build and Deploy to Cloud Run
 
 on:
   push:
@@ -8,63 +8,51 @@ on:
 
 env:
   PROJECT_ID: eduardos-apis
-  REGION: us-central1
-  SERVICE_NAME: lettersandprompts
-  REGISTRY: us-central1-docker.pkg.dev
+  GAR_LOCATION: us-central1
   REPOSITORY: lettersandprompts
+  SERVICE: lettersandprompts
+  REGION: us-central1
 
 jobs:
   deploy:
-    name: Build and Deploy to Cloud Run
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     runs-on: ubuntu-latest
     
-    permissions:
-      contents: read
-      
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
-        
-      - name: Authenticate to Google Cloud
+
+      - name: Google Auth
+        id: auth
         uses: google-github-actions/auth@v2
         with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
-          
-      - name: Set up Cloud SDK
-        uses: google-github-actions/setup-gcloud@v2
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
+          token_format: 'access_token'
+
+      - name: Docker Auth
+        id: docker-auth
+        uses: docker/login-action@v3
         with:
-          project_id: ${{ env.PROJECT_ID }}
-          
-      - name: Configure Docker for Artifact Registry
-        run: |
-          gcloud auth configure-docker ${{ env.REGISTRY }}
-          
-      - name: Build and push Docker image
-        run: |
-          IMAGE_TAG="${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/app:${{ github.sha }}"
-          IMAGE_LATEST="${{ env.REGISTRY }}/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/app:latest"
-          
-          docker build -t $IMAGE_TAG -t $IMAGE_LATEST .
-          docker push $IMAGE_TAG
-          docker push $IMAGE_LATEST
-          
-          echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
-          
+          username: 'oauth2accesstoken'
+          password: '${{ steps.auth.outputs.access_token }}'
+          registry: '${{ env.GAR_LOCATION }}-docker.pkg.dev'
+
+      - name: Build and Push Container
+        run: |-
+          docker build -t "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/app:${{ github.sha }}" ./
+          docker push "${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/app:${{ github.sha }}"
+
       - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy ${{ env.SERVICE_NAME }} \
-            --image ${{ env.IMAGE_TAG }} \
-            --platform managed \
-            --region ${{ env.REGION }} \
-            --allow-unauthenticated \
-            --timeout=60m \
-            --memory=512Mi \
-            --quiet
-            
-      - name: Show deployment URL
-        run: |
-          URL=$(gcloud run services describe ${{ env.SERVICE_NAME }} \
-            --platform managed \
-            --region ${{ env.REGION }} \
-            --format 'value(status.url)')
-          echo "Deployed to: $URL"
+        id: deploy
+        uses: google-github-actions/deploy-cloudrun@v3
+        with:
+          service: ${{ env.SERVICE }}
+          region: ${{ env.REGION }}
+          image: ${{ env.GAR_LOCATION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPOSITORY }}/app:${{ github.sha }}
+          flags: '--allow-unauthenticated --timeout=60m --memory=512Mi'
+
+      - name: Show Output
+        run: echo "Deployed to ${{ steps.deploy.outputs.url }}"
