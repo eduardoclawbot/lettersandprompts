@@ -28,44 +28,28 @@
 - 60-minute timeout configured for long-lived connections
 - Health check passing
 
-## Known Issue 🐛
+## Known Issue 🐛 → ✅ RESOLVED (2026-02-26)
 
 **Hugo Layout Resolution Problem:**
-- The chat page (`/chat/`) is rendering with the wrong template
-- Currently using `_default/single.html` (about page layout) instead of `_default/chat.html`
-- The chat.html template exists and is being copied into Docker image
-- Front matter specifies `layout = "chat"` but Hugo isn't recognizing it
-- CSS and JS are loading correctly (chat.css, chat.js)
-- Only the HTML structure is wrong
+- ~~The chat page (`/chat/`) was rendering with the wrong template~~
+- ~~Front matter specified `layout = "chat"` but Hugo wasn't recognizing it~~
 
-**What's in the deployed HTML:**
-```html
-<section class="about">
-  <div class="container">
-    <h1 class="about__title">Chatroom</h1>
-    <div class="about__content"></div>
-  </div>
-</section>
-```
+**Solution:**
+- Changed front matter from `layout = "chat"` to `type = "chat"`
+- Moved template from `layouts/_default/chat.html` to `layouts/chat/single.html`
+- Tested locally, verified correct template loads
+- Deployed to production: revision `lettersandprompts-00005-qg9`
+- Template now renders correctly with full chat interface
 
-**What SHOULD be there:**
-```html
-<div class="chat-container">
-  <div class="chat-window">
-    <div class="chat-header">...</div>
-    <div class="chat-messages">...</div>
-    ...
-  </div>
-</div>
-```
+**Build Details:**
+- Commit: `0db8185` "Fix chat page template resolution"
+- Cloud Build: `75ec749c-bf2a-49df-be1f-04d32706bc4d` (1m23s)
+- Image: `us-central1-docker.pkg.dev/eduardos-apis/lettersandprompts/app:template-fix`
+- Live: https://lettersandprompts.com/chat/
 
 ## Next Steps
 
-1. **Fix Hugo layout resolution** (immediate):
-   - Try `type = "chat"` in front matter instead of `layout = "chat"`
-   - Or create `layouts/chat/single.html` instead of `layouts/_default/chat.html`
-   - Or use a custom output format
-   - Test locally before rebuilding Docker
+1. ~~**Fix Hugo layout resolution**~~ ✅ DONE
 
 2. **Test chat functionality** (after layout fix):
    - Open browser to https://lettersandprompts.com/chat/
