@@ -157,23 +157,28 @@ class ChatRoom {
       minute: '2-digit'
     });
     
-    const timeEl = document.createElement('span');
-    timeEl.className = 'chat-time';
-    timeEl.textContent = `[${time}]`;
+    // Message header (handle + timestamp)
+    const headerEl = document.createElement('div');
+    headerEl.className = 'chat-message-header';
     
     const handleEl = document.createElement('span');
     handleEl.className = 'chat-handle';
     handleEl.style.color = message.color;
     handleEl.textContent = message.handle;
     
-    const textEl = document.createElement('span');
+    const timeEl = document.createElement('span');
+    timeEl.className = 'chat-time';
+    timeEl.textContent = time;
+    
+    headerEl.appendChild(handleEl);
+    headerEl.appendChild(timeEl);
+    
+    // Message text
+    const textEl = document.createElement('div');
     textEl.className = 'chat-text';
     textEl.textContent = message.text;
     
-    messageEl.appendChild(timeEl);
-    messageEl.appendChild(document.createTextNode(' '));
-    messageEl.appendChild(handleEl);
-    messageEl.appendChild(document.createTextNode(': '));
+    messageEl.appendChild(headerEl);
     messageEl.appendChild(textEl);
     
     this.messagesContainer.appendChild(messageEl);
