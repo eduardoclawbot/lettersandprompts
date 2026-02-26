@@ -2,15 +2,18 @@
 
 ## Technical / Infrastructure
 
-### CI/CD Pipeline
+### CI/CD Pipeline ✅
 **Goal:** Enable blog post deployments without requiring Eduardo to rebuild/redeploy
-- Set up GitHub Actions workflow for automatic builds on push to main
-- Configure Cloud Build triggers to deploy on merge
-- Test workflow with a dummy blog post
-- Document the process for Will to add new posts (just push MD files)
+- ✅ Set up GitHub Actions workflow for automatic builds on push to main
+- ✅ Created `github-actions` service account with required GCP permissions
+- ✅ Added `GCP_SA_KEY` secret to GitHub repository
+- ✅ First automated deployment triggered and running
+- ✅ Documentation in `CICD-SETUP.md`
 
 **Priority:** High  
-**Status:** Not started
+**Status:** Complete (2026-02-26)
+
+**How to use:** Just push markdown files to `content/posts/` and the site auto-deploys!
 
 ---
 
@@ -113,7 +116,12 @@
 ---
 
 ## Completed
-_(Nothing yet)_
+
+### CI/CD Pipeline ✅ (2026-02-26)
+**What:** Automated GitHub Actions deployment pipeline  
+**Result:** Every push to main automatically builds Docker image and deploys to Cloud Run  
+**How to use:** Just push blog posts (`.md` files) to the repo - no manual deployment needed  
+**Documentation:** See `CICD-SETUP.md`
 
 ---
 
