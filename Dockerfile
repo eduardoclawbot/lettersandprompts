@@ -9,9 +9,8 @@ RUN hugo --minify
 FROM golang:1.26-alpine AS go-builder
 
 WORKDIR /app
-COPY server/go.mod server/go.sum* ./
-RUN go mod download || true
-COPY server/*.go ./
+COPY server/ ./
+RUN go mod download
 RUN CGO_ENABLED=0 GOOS=linux go build -o server .
 
 # Stage 3: Runtime
