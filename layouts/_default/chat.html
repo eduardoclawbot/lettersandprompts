@@ -1,0 +1,70 @@
+{{ define "main" }}
+<div class="chat-container">
+  <div class="chat-window">
+    <!-- Chat header -->
+    <div class="chat-header">
+      <div class="chat-title">
+        <span class="chat-icon">💬</span>
+        <h1>Chatroom</h1>
+      </div>
+      <div class="chat-status">
+        <span id="user-count">0</span> online
+      </div>
+    </div>
+
+    <!-- Chat messages -->
+    <div class="chat-messages" id="chat-messages">
+      <div class="chat-welcome">
+        <pre class="ascii-banner">
+ _     ___ _____ _____ ___ ___  ___   ___   ___ ___  ___  __  __ ___ _____ ___ 
+| |   | __|_   _|_   _| __| _ \/ __| ( _ ) | _ \ _ \/ _ \|  \/  | _ \_   _/ __|
+| |__ | _|  | |   | | | _||   /\__ \ / _ \ |  _/   / (_) | |\/| |  _/ | | \__ \
+|____|___| |_|   |_| |___|_|_\|___/ \___/ |_| |_|_\\___/|_|  |_|_|   |_| |___/
+        </pre>
+        <p class="welcome-text">Welcome to the chatroom. Pick a handle and join the conversation.</p>
+      </div>
+    </div>
+
+    <!-- Chat input -->
+    <div class="chat-input-container">
+      <div class="chat-prompt">&gt;</div>
+      <input 
+        type="text" 
+        id="chat-input" 
+        class="chat-input" 
+        placeholder="Type a message..."
+        maxlength="500"
+        disabled
+      />
+      <button id="send-button" class="chat-send" disabled>Send</button>
+    </div>
+  </div>
+
+  <!-- User list sidebar -->
+  <div class="chat-sidebar">
+    <h3>Online Users</h3>
+    <ul id="user-list" class="user-list">
+      <li class="user-list-empty">Connecting...</li>
+    </ul>
+  </div>
+</div>
+
+<!-- Handle picker modal -->
+<div id="handle-modal" class="modal">
+  <div class="modal-content">
+    <h2>Choose Your Handle</h2>
+    <p>Pick a name to identify yourself in the chat:</p>
+    <input 
+      type="text" 
+      id="handle-input" 
+      placeholder="Your handle"
+      maxlength="20"
+      autocomplete="off"
+    />
+    <button id="join-button">Join Chat</button>
+    <p class="handle-note">Your handle will be saved for future visits</p>
+  </div>
+</div>
+
+<script src="/js/chat.js"></script>
+{{ end }}
