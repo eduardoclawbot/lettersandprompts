@@ -6,7 +6,7 @@ COPY . .
 RUN hugo --minify
 
 # Stage 2: Build Go server
-FROM golang:1.26-alpine AS go-builder
+FROM golang:1.22-alpine AS go-builder
 
 WORKDIR /app
 COPY server/ ./
