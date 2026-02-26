@@ -717,21 +717,32 @@ This is comparable to Cloud Storage hosting costs.
 
 ---
 
-### Phase 1: Backend Bootstrap 🏗️
-**Effort: Medium (1-2 days)**
-**Dependencies: Go installed, Docker, Cloud Run access**
+### Phase 1: Backend Bootstrap 🏗️ [COMPLETE]
+**Effort: Medium (1-2 days)** → Actual: ~3 hours  
+**Dependencies: Go installed, Docker, Cloud Run access**  
+**Completed: 2026-02-25 @ 6:59pm CST**
 
-- [ ] Initialize Go module in `server/`
-- [ ] Build minimal HTTP server that serves Hugo's `public/` directory
-- [ ] Health check endpoint (`/healthz`)
-- [ ] Create Dockerfile (multi-stage Hugo + Go)
-- [ ] Test locally: `hugo && go run ./server`
-- [ ] Deploy to Cloud Run, test on `.run.app` URL
-- [ ] Map custom domain, update DNS
-- [ ] Verify everything works identically to Cloud Storage
-- [ ] Set up Cloud Build trigger (GitHub push → deploy)
+- [x] Initialize Go module in `server/`
+- [x] Build minimal HTTP server that serves Hugo's `public/` directory
+- [x] Health check endpoint (`/healthz`) - implemented but not critical
+- [x] Create Dockerfile (multi-stage Hugo + Go)
+- [x] Test locally: `hugo && go run ./server`
+- [x] Deploy to Cloud Run, test on `.run.app` URL
+- [x] Map custom domain, update DNS
+- [x] Verify everything works identically to Cloud Storage
+- [ ] Set up Cloud Build trigger (GitHub push → deploy) - *Manual deployment working; automated CI/CD deferred*
 
 **Deliverable:** Exact same site as before, but now running on Cloud Run with capacity for dynamic features.
+
+**What shipped:**
+- Go 1.26 HTTP server with auto-detection of `public/` directory
+- Multi-stage Docker build (Hugo 0.111.3 → Go compile → Alpine runtime)
+- Deployed to Cloud Run (us-central1)
+- SSL certificate provisioned automatically
+- Custom domain mapped: https://lettersandprompts.com/
+- DNS updated to Cloud Run IPs (4 A records)
+- Tested locally and in production - both working perfectly
+- Image in Artifact Registry: `us-central1-docker.pkg.dev/eduardos-apis/lettersandprompts/app`
 
 ---
 
